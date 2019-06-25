@@ -2,10 +2,10 @@
 <html>
 <head>
 	<meta name="referrer" content="no-referrer">
-    <title>howistheair</title>
+    <title>cakeorder</title>
     <link rel="icon" type="image/png" href="https://console.dialogflow.com/api-client/assets/img/logo-short.png"/>
 
-    <meta property="og:title" content="howistheair"/>
+    <meta property="og:title" content="cakeorder"/>
     <meta property="og:description" content=""/>
     <meta property="og:locale" content="zh-tw"/>
     <meta property="og:image" content="" />
@@ -65,6 +65,36 @@
 </head>
 <body>
 
+
+<div id="preloader">
+    <noscript>
+        <h1>This application does'not work without javascript</h1>
+    </noscript>
+    <div class="logo"></div>
+</div>
+
+<div class="b-agent-demo">
+
+    <div class="b-agent-demo_header" style="display:none">
+        <div class="b-agent-demo_header-icon">
+            <div class="b-agent-demo_header-icon-align-helper">
+                <img id="agent-avatar" src="https://console.dialogflow.com/api-client/assets/img/logo-short.png" srcset="https://console.dialogflow.com/api-client/assets/img/logo-short.png 2x, https://console.dialogflow.com/api-client/assets/img/logo-short.png 1x" />
+            </div>
+        </div>
+        <div class="b-agent-demo_header-wrapper" style="display:none">
+            <div class="b-agent-demo_header-agent-name">cakeorder</div>
+            <div class="b-agent-demo_header-description"></div>
+        </div>
+    </div>
+    <div class="b-agent-demo_powered_by" style="display:none">
+        <a href="https://dialogflow.com" target="_blank">
+            
+                <span>驅動的</span>
+            
+            <img src="https://console.dialogflow.com/api-client/assets/img/logo-black.png">
+            
+        </a>
+    </div>
     <div class="b-agent-demo_result" id="resultWrapper">
         <table class="b-agent-demo_result-table"><tr><td  id="result"></td></tr></table>
     </div>
@@ -86,7 +116,7 @@
 </noscript>
 <script>
     AGENT_LANGUAGE = "zh-tw";
-    AGENT_AVATAR_ID = "projects/cakeorder-df85f";
+    AGENT_AVATAR_ID = "";
     SERVICE_BASE_URL = "https://console.dialogflow.com/api-client/";
 
     // non-blocking CSS delivery
