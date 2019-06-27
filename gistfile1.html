@@ -1,0 +1,118 @@
+<html>
+<head>
+	<title>API Example</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+
+		var accessToken = "42c2983c5f094a2285a0396f6ef5f6f3";   //f7178d7d82f74e94a35044e3f72743c5
+		//var baseUrl = "https://api.api.ai/api/";
+		var baseUrl = "https://dialogflow.googleapis.com";
+		$(document).ready(function() {
+			$("#input").keypress(function(event) {
+				if (event.which == 13) {
+					event.preventDefault();
+					send();
+				}
+			});
+			$("#rec").click(function(event) {
+				switchRecognition();
+			});
+		});
+
+		var recognition;
+
+		function startRecognition() {
+			recognition = new webkitSpeechRecognition();
+			recognition.onstart = function(event) {
+				updateRec();
+			};
+			recognition.onresult = function(event) {
+				var text = "";
+			    for (var i = event.resultIndex; i < event.results.length; ++i) {
+			    	text += event.results[i][0].transcript;
+			    }
+			    setInput(text);
+				stopRecognition();
+			};
+			recognition.onend = function() {
+				stopRecognition();
+			};
+			recognition.lang = "en-US";
+			recognition.start();
+		}
+	
+		function stopRecognition() {
+			if (recognition) {
+				recognition.stop();
+				recognition = null;
+			}
+			updateRec();
+		}
+
+		function switchRecognition() {
+			if (recognition) {
+				stopRecognition();
+			} else {
+				startRecognition();
+			}
+		}
+
+		function setInput(text) {
+			$("#input").val(text);
+			send();
+		}
+
+		function updateRec() {
+			$("#rec").text(recognition ? "Stop" : "Speak");
+		}
+
+function send() {
+			var txt = $("#input").val();
+			$.ajax({
+				type: "GET",
+				url: baseUrl + "/v2/cakeorder-df85f/agent:search",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				headers: {
+					//"Authorization": "Bearer " + accessToken
+				},
+				data: JSON.stringify( 
+					{
+					sessionId: "somerandomthing", queryInput: 
+						{ text: 
+							{text: txt, languageCode: "en"},
+						},
+					},
+				),
+				success: function(data) {
+					var respText = data.result.fulfillment.speech;
+					console.log("Respuesta: " + respText);
+					setResponse(respText);
+				},
+				error: function(data) {
+					setResponse("Internal Server Error");
+				}
+			});
+			setResponse("Thinking...");
+		}
+		function setResponse(val) {
+			$("#response").text(val);
+		}
+
+	</script>
+	<style type="text/css">
+		body { width: 500px; margin: 0 auto; text-align: center; margin-top: 20px; }
+		div {  position: absolute; }
+		input { width: 400px; }
+		button { width: 50px; }
+		textarea { width: 100%; }
+	</style>
+</head>
+<body>
+	<div>
+		<input id="input" type="text"> <button id="rec">Speak</button>
+		<br>Response<br> <textarea id="response" cols="40" rows="20"></textarea>
+	</div>
+</body>
+</html>
